@@ -14,6 +14,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'nightsense/stellarized'
 Plugin 'haya14busa/incsearch.vim'
+Plugin 'morhetz/gruvbox'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -54,7 +55,7 @@ set shiftwidth=4        " Shift width
 set expandtab           " Use spaces instead of tabs
 
 syntax on
-colorscheme stellarized 
+colorscheme gruvbox 
 set background=dark
 
 map /  <Plug>(incsearch-forward)
