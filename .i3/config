@@ -75,9 +75,9 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $workspace1 ""
-set $workspace2 ""
-set $workspace3 ""
+set $workspace1 "1"
+set $workspace2 "2"
+set $workspace3 "3"
 
 # move focused container to workspace
 bindsym $mod+Shift+comma move container to workspace $workspace1
@@ -128,11 +128,11 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $bg-color 	         #2f343f
+set $bg-color 	         #689d6a
 set $inactive-bg-color   #2f343f
 set $text-color          #f3f4f5
 set $inactive-text-color #676E7D
-set $urgent-bg-color     #E53935
+set $urgent-bg-color     #d65d0e
 
 # window colors
 #                       border              background         text                 indicator
@@ -142,18 +142,19 @@ client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-col
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
 
 # bar
-bar {
-	position top
-  	status_command i3blocks -c /home/bigtor/.i3/i3blocks.conf
-	colors {
-		background $bg-color
-	    	separator #757575
-		#                  border             background         text
-		focused_workspace  $bg-color          $bg-color          $text-color
-		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
-		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
-	}
-}
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+#bar {
+#	position top
+#  	status_command i3blocks -c /home/bigtor/.i3/i3blocks.conf
+#	colors {
+#		background $inactive-bg-color
+#	    	separator #757575
+#		#                  border             background         text
+#		focused_workspace  $bg-color          $bg-color          $text-color
+#		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+#		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+#	}
+#}
 
 # i3lock config
 exec --no-startup-id xautolock -time 10 -locker 'i3lock -d -c 000000'
@@ -168,10 +169,13 @@ exec_always feh --no-xinerama --bg-scale '/home/bigtor/Pictures/fire.jpg'
 bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -font "System San Francisco Display 14"
 
 # you need to bind some keys like volume and brightness
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%-    
 
 gaps inner 10
 gaps outer 5
 smart_gaps on
-for_window [class ="^.*"] border pixel 0
+smart_borders on
+for_window [class ="^.*"] border pixel 4
