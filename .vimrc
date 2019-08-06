@@ -7,14 +7,14 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
-Plugin 'nightsense/stellarized'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'morhetz/gruvbox'
+Plugin 'junegunn/goyo.vim'
+Plugin 'mhinz/vim-signify'
+Plugin 'junegunn/limelight.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -44,10 +44,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:syntastic_php_checkers = ['php', 'phpcs']
-let g:syntastic_php_phpcs_exec = './bin/phpcs'
-let g:syntastic_php_phpcs_args = '--standard=psr2'
-
 " Some basic PSR code style rules
 set tabstop=4           " Tab width
 set softtabstop=4       " Soft tab width
@@ -65,4 +61,8 @@ map g/ <Plug>(incsearch-stay)
 map <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeWinPos = "right"
 
-au BufReadPost *.vue set syntax=html
+set clipboard+=unnamedplus
+" Color name (:help cterm-colors) or ANSI code
+let g:limelight_conceal_ctermfg = 'DarkGray'
+" Default: 0.5
+let g:limelight_default_coefficient = 0.7
