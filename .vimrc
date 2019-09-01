@@ -8,6 +8,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'scrooloose/syntastic'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'haya14busa/incsearch.vim'
@@ -15,6 +16,8 @@ Plugin 'morhetz/gruvbox'
 Plugin 'junegunn/goyo.vim'
 Plugin 'mhinz/vim-signify'
 Plugin 'junegunn/limelight.vim'
+Plugin 'racer-rust/vim-racer'
+Plugin 'rust-lang/rust.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -66,3 +69,13 @@ set clipboard+=unnamedplus
 let g:limelight_conceal_ctermfg = 'DarkGray'
 " Default: 0.5
 let g:limelight_default_coefficient = 0.7
+
+" rust racer config
+set hidden
+let g:racer_cmd = "/home/bigtor/.cargo/bin/racer"
+let g:racer_experimental_completer = 1
+let g:racer_insert_paren = 1
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
