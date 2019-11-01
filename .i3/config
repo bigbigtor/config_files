@@ -89,12 +89,6 @@ bindsym $mod+comma workspace $workspace1
 bindsym $mod+period workspace $workspace2
 bindsym $mod+slash workspace $workspace3
 
-assign [class="Firefox"] $workspace1
-assign [class="Termite"] $workspace2
-
-exec --no-startup-id firefox
-exec --no-startup-id termite
-
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
