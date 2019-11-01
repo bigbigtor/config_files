@@ -161,8 +161,8 @@ interface = wlp2s0
 
 interval = 5
 
-label-connected =  %essid%
-label-disconnected =  Not Connected
+label-connected =  %{A1:wicd-client:}%essid%%{A}
+label-disconnected =  %{A1:wicd-client:}%Not Connected%%{A}
 
 [module/cpu]
 type = internal/cpu
