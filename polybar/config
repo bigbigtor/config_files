@@ -49,7 +49,7 @@ module-margin = 1.5
 
 modules-left = volume backlight battery mpd
 modules-center = i3
-modules-right = wlan cpu date time
+modules-right = cpu temperature wlan date time
 
 tray-position = none
 tray-detached = true
@@ -162,7 +162,7 @@ interface = wlp2s0
 interval = 5
 
 label-connected =  %{A1:wicd-client:}%essid%%{A}
-label-disconnected =  %{A1:wicd-client:}%Not Connected%%{A}
+label-disconnected =  %{A1:wicd-client:}Not Connected%{A}
 
 [module/cpu]
 type = internal/cpu
@@ -178,3 +178,16 @@ type = internal/network
 interface = wlp2s0
 label-connected =  %downspeed% |  %upspeed%
 
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon3/temp2_input
+base-temperature = 30
+warn-temperature = 60
+format = <ramp> <label>
+format-warn = <ramp> <label-warn>
+label = %temperature-c%
+label-warn = %temperature-c%
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
