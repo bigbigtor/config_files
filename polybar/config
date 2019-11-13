@@ -47,8 +47,8 @@ padding-left = 2
 padding-right = 2
 module-margin = 1.5
 
-modules-left = volume backlight battery mpd
-modules-center = i3
+modules-left = volume backlight battery mpd i3
+;modules-center = 
 modules-right = cpu temperature wlan date time
 
 tray-position = none
