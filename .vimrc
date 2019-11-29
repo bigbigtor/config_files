@@ -7,45 +7,27 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'scrooloose/syntastic'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'dense-analysis/ale'
+Plugin 'Shougo/deoplete.nvim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'vim-airline/vim-airline'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'morhetz/gruvbox'
-Plugin 'junegunn/goyo.vim'
 Plugin 'mhinz/vim-signify'
-Plugin 'junegunn/limelight.vim'
-Plugin 'racer-rust/vim-racer'
 Plugin 'rust-lang/rust.vim'
+Plugin 'sebastianmarkow/deoplete-rust'
+Plugin 'autozimu/languageclient-neovim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
 set number relativenumber
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 " Some basic PSR code style rules
 set tabstop=4           " Tab width
@@ -54,7 +36,7 @@ set shiftwidth=4        " Shift width
 set expandtab           " Use spaces instead of tabs
 
 syntax on
-colorscheme gruvbox 
+colorscheme gruvbox
 set background=dark
 
 map /  <Plug>(incsearch-forward)
@@ -65,17 +47,30 @@ map <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeWinPos = "right"
 
 set clipboard+=unnamedplus
-" Color name (:help cterm-colors) or ANSI code
-let g:limelight_conceal_ctermfg = 'DarkGray'
-" Default: 0.5
-let g:limelight_default_coefficient = 0.7
 
-" rust racer config
 set hidden
-let g:racer_cmd = "/home/bigtor/.cargo/bin/racer"
-let g:racer_experimental_completer = 1
-let g:racer_insert_paren = 1
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('sources', {
+            \ 'rust': ['LanguageClient'],
+            \})
+"let g:deoplete#sources#rust#racer_binary='/home/bigtor/.cargo/bin/racer'
+"let g:deoplete#sources#rust#rust_source_path='/home/bigtor/.rustup/toolchains/nightly-i686-unknown-linux-gnu/lib/rustlib/src/rust/src'
+let g:deoplete#sources#rust#disable_keymap=1
+nmap <buffer> gx <plug>DeopleteRustGoToDefinitionVSplit
+
+let g:LanguageClient_serverCommands = {
+            \'rust': ['rls'],
+            \}
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+let g:ale_rust_rls_toolchain = "stable"
+let g:ale_linters = {
+            \ 'rust': ['rls', 'cargo'],
+            \}
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+            \ 'rust': ['rustfmt'],
+            \}
