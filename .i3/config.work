@@ -1,4 +1,4 @@
-# i3 config file (v4)
+# i3 c nfig file (v4)
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
@@ -8,7 +8,7 @@ set $mod Mod4
 # workspace_layout tabbed <stacking|tabbed>
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
-new_window pixel 1
+new_window pixel 4
 new_float normal
 
 # Hide borders
@@ -47,8 +47,8 @@ exec --no-startup-id volumeicon
 #exec --no-startup-id pulseaudio
 #exec --no-startup-id pa-applet
 #bindsym $mod+Ctrl+m exec pavucontrol
-bindsym XF86AudioPlay exec playerctl --player=spotify play-pause
-bindsym XF86AudioNext exec playerctl --player=spotify next
+bindsym XF86AudioPlay exec playerctl --player=spotify play-pause; exec cmus-remote -u
+bindsym XF86AudioNext exec playerctl --player=spotify next; exec cmus-remote -n
 
 ################################################################################################
 
@@ -139,16 +139,19 @@ bindsym $mod+a focus parent
 bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
 
+#toggle keyboard layout
+exec --no-startup-id "setxkbmap us,es -option 'grp:alt_space_toggle'"
+
 # Workspace names
 # to display names or symbols instead of plain workspace numbers you can use
 # something like: set $ws1 1:mail
 #                 set $ws2 2:
-set $ws1 1:browser
-set $ws2 2:term
-set $ws3 3:comm
-set $ws4 4:db
-set $ws5 5:code
-set $ws6 6:other
+set $ws1 1:
+set $ws2 2:
+set $ws3 3:
+set $ws4 4:
+set $ws5 5:
+set $ws6 6:
 set $ws7 7
 set $ws8 8
 
@@ -182,15 +185,16 @@ bindsym $mod+Shift+minus move container to workspace $ws6; workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
 
-workspace $ws1 output DVI-0
-workspace $ws2 output DVI-1
-workspace $ws3 output DVI-0
+workspace $ws1 output DVI-1
+workspace $ws2 output DVI-0
+workspace $ws3 output DVI-1
 workspace $ws4 output DVI-1
-workspace $ws5 output DVI-1
-workspace $ws6 output DVI-1
+workspace $ws5 output DVI-0
+workspace $ws6 output DVI-0
 
-for_window [workspace=$ws3] layout tabbed
-for_window [workspace=$ws6] layout tabbed
+for_window [workspace=$ws3] layout stacked
+for_window [workspace=$ws4] layout stacked
+for_window [workspace=$ws6] layout stacked
 
 # Open applications on specific workspaces
 # assign [class="Thunderbird"] $ws1
@@ -200,13 +204,16 @@ for_window [workspace=$ws6] layout tabbed
 assign [class="Skype"] $ws3
 assign [class="Slack"] $ws3
 assign [class="Eclipse"] $ws5
+assign [class="(?i)intellij"] $ws5
 assign [class="DBeaver"] $ws4
+assign [class="Postman"] $ws4
 assign [class="Google-chrome"] $ws1
+assign [class="(?i)firefox"] $ws1
 assign [class="terminal"] $ws2
 assign [class="Thunderbird"] $ws3
 assign [class="Pidgin"] $ws3
-assign [class="Spotify"] $ws6
-assign [class="(?i)virtualbox"] $ws6
+assign [class="(?i)spotify"] $ws6
+assign [class="(?i)Hansoft"] $ws6
 
 # Open specific applications in floating mode
 for_window [title="alsamixer"] floating enable border pixel 1
@@ -235,6 +242,9 @@ for_window [class="Skype"] floating disable border normal
 for_window [class="Timeset-gui"] floating enable border normal
 for_window [class="(?i)virtualbox"] floating disable border normal
 for_window [class="Xfburn"] floating enable
+#for_window [class="(?i)pcmanfm"] floating enable border normal
+#for_window [class="(?i)nautilus"] floating enable border normal
+for_window [class="(?i)rabbitvcs"] floating enable border normal
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
@@ -308,15 +318,16 @@ exec --no-startup-id xautolock -time 10 -locker blurlock
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 exec ~/.screenlayout/victor.sh
-exec alttab -d 1
-exec skypeforlinux
-exec skypeforlinux --secondary
+exec flatpak run com.skype.Client
+exec flatpak run com.skype.Client --secondary
 exec slack
-exec dbeaver
-exec google-chrome-stable
-exec spotify
+exec idea
+exec postman
+exec firefox-developer-edition
+exec flatpak run com.spotify.Client
 exec thunderbird
-exec pidgin
+# exec pidgin
+exec docker-compose -f ~/.local/bin/hansoft/docker-compose.yml up
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
@@ -370,11 +381,15 @@ bar {
         separator  #454947
 
 #                      border  backgr. text
-        focused_workspace  #F9FAF9 #16a085 #292F34
-        active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #222D31 #EEE8D5
+        focused_workspace   #83a598 #83a598 #282828
+        active_workspace    #7c6f64 #7c6f64 #282828
+        inactive_workspace  #282828 #282828 #ebdbb2
+        urgent_workspace    #cc241d #cc241d #ebdbb2                      
+#        focused_workspace  #F9FAF9 #16a085 #292F34
+#        active_workspace   #595B5B #353836 #FDF6E3
+#        inactive_workspace #595B5B #222D31 #EEE8D5
         binding_mode       #16a085 #2C2C2C #F9FAF9
-        urgent_workspace   #16a085 #FDF6E3 #E5201D
+#        urgent_workspace   #16a085 #FDF6E3 #E5201D
     }
 }
 
@@ -383,11 +398,15 @@ bar {
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
-  client.focused          #556064 #556064 #80FFF9 #FDF6E3
-  client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
-  client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
-  client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
-  client.placeholder      #000000 #0c0c0c #ffffff #000000 
+  client.focused          #282828 #282828 #83a598 #282828 #fe8019 
+  client.focused_inactive #282828 #282828 #fbdbb2 #282828 #282828
+  client.unfocused        #282828 #282828 #7c6f64 #282828 #282828
+  client.urgent           #cc241d #cc241d #fbdbb2 #282828 #282828
+#  client.focused          #556064 #556064 #80FFF9 #FDF6E3
+#  client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
+#  client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
+#  client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
+#  client.placeholder      #000000 #0c0c0c #ffffff #000000 
 
   client.background       #2B2C2B
 
