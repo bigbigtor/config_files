@@ -36,6 +36,9 @@ set softtabstop=4       " Soft tab width
 set shiftwidth=4        " Shift width
 set expandtab           " Use spaces instead of tabs
 
+set winwidth=80
+set winheight=30
+
 syntax on
 colorscheme gruvbox
 set background=dark
