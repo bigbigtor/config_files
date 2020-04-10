@@ -18,6 +18,7 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'sebastianmarkow/deoplete-rust'
 Plugin 'autozimu/languageclient-neovim'
 Plugin 'ryanoasis/vim-devicons'
+Plugin 'junegunn/fzf'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
